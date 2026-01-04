@@ -8,6 +8,10 @@
     "build": {
       "outputs": ["build/**", "dist/**"]
     },
+    "deploy": {
+      "dependsOn": ["build"],
+      "cache": false
+    },
     "typecheck": {},
     "lint": {}
   }
