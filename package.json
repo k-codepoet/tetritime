@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "turbo dev",
     "build": "turbo build",
-    "deploy": "turbo deploy",
+    "cf-deploy": "turbo cf-deploy",
     "typecheck": "turbo typecheck",
     "lint": "turbo lint"
   },

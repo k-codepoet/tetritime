@@ -8,7 +8,7 @@
     "build": {
       "outputs": ["build/**", "dist/**"]
     },
-    "deploy": {
+    "cf-deploy": {
       "dependsOn": ["build"],
       "cache": false
     },
