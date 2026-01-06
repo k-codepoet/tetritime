@@ -9,19 +9,21 @@
 npx wrangler login
 ```
 
-## wrangler.jsonc 설정
+## wrangler.toml 설정
 
-`apps/web/wrangler.jsonc` 파일이 이미 설정되어 있습니다:
+`apps/web/wrangler.toml` 파일이 이미 설정되어 있습니다:
 
-```jsonc
-{
-  "name": "tetritime",
-  "compatibility_date": "2025-04-04",
-  "compatibility_flags": ["nodejs_compat"],
-  "main": "./workers/app.ts",
-  "assets": { "directory": "./build/client" },
-  "observability": { "enabled": true }
-}
+```toml
+name = "tetritime"
+compatibility_date = "2025-04-04"
+compatibility_flags = ["nodejs_compat"]
+main = "./workers/app.ts"
+
+[assets]
+directory = "./build/client"
+
+[observability]
+enabled = true
 ```
 
 ## 배포
