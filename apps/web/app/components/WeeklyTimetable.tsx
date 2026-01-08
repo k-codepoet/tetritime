@@ -1,30 +1,20 @@
 import { useState } from 'react';
-
-interface Program {
-  id: number;
-  name: string;
-  class: string;
-  grade: string;
-  day: string;
-  time: string;
-  duration: number;
-  capacity: number;
-  category: string;
-}
-
-interface CategoryStyle {
-  label: string;
-  icon: string;
-  className: string;
-  bgColor: string;
-  textColor: string;
-}
+import { Link } from 'react-router';
+import {
+  SONGHYUN_AFTERSCHOOL_PROGRAMS,
+  SONGHYUN_TIME_SLOTS,
+  CATEGORY_STYLES,
+  DAYS,
+  DAY_COLORS,
+  type LegacyProgram,
+  type TimeSlot,
+} from '~/data';
 
 interface SlotContent {
   content: string;
   style: string;
   tooltip?: string;
-  program?: Program;
+  program?: LegacyProgram;
 }
 
 // Tetris-inspired Logo Component
@@ -50,81 +40,15 @@ function TetritimeLogo() {
 }
 
 export default function WeeklyTimetable() {
-  const afterSchoolPrograms: Program[] = [
-    // ===== 월요일 (Monday) =====
-    { id: 1, name: '도자기', class: 'A', grade: '1-2', day: '월', time: '13:00~14:20', duration: 80, capacity: 22, category: 'art' },
-    { id: 2, name: '도자기', class: 'B', grade: '1~6', day: '월', time: '14:40~16:00', duration: 80, capacity: 22, category: 'art' },
-    { id: 3, name: '바둑', class: 'A', grade: '1~2', day: '월', time: '13:00~14:20', duration: 80, capacity: 22, category: 'thinking' },
-    { id: 4, name: '바둑', class: 'B', grade: '1~6', day: '월', time: '14:40~16:00', duration: 80, capacity: 22, category: 'thinking' },
-    { id: 5, name: '축구', class: 'A', grade: '1~2', day: '월', time: '13:00~14:20', duration: 80, capacity: 22, category: 'sports' },
-    { id: 6, name: '미술(회화)', class: 'A', grade: '1-2', day: '월', time: '13:00~14:20', duration: 80, capacity: 22, category: 'art' },
-    { id: 7, name: '미술(회화)', class: 'B', grade: '1~6', day: '월', time: '14:40~16:00', duration: 80, capacity: 22, category: 'art' },
+  // 데이터는 외부에서 import
+  const afterSchoolPrograms = SONGHYUN_AFTERSCHOOL_PROGRAMS;
+  const timeSlots = SONGHYUN_TIME_SLOTS;
+  const categories = CATEGORY_STYLES;
+  const days = [...DAYS];
+  const dayColors = [...DAY_COLORS];
 
-    // ===== 화요일 (Tuesday) =====
-    { id: 8, name: '독서논술', class: 'A', grade: '1~2', day: '화', time: '13:50~15:10', duration: 80, capacity: 22, category: 'language' },
-    { id: 9, name: '주산암산', class: 'A', grade: '1~2', day: '화', time: '13:50~15:10', duration: 80, capacity: 22, category: 'thinking' },
-    { id: 10, name: '한자', class: 'A', grade: '1~2', day: '화', time: '13:50~15:10', duration: 80, capacity: 22, category: 'language' },
-    { id: 11, name: '한자', class: 'B', grade: '1~6', day: '화', time: '15:20~16:40', duration: 80, capacity: 22, category: 'language' },
-    { id: 12, name: '배드민턴', class: 'B', grade: '1~6', day: '화', time: '16:00~17:10', duration: 70, capacity: 22, category: 'sports' },
-
-    // ===== 수요일 (Wednesday) =====
-    { id: 13, name: '로봇', class: 'A', grade: '1-2', day: '수', time: '13:50~15:10', duration: 80, capacity: 22, category: 'science' },
-    { id: 14, name: '로봇', class: 'B', grade: '1~6', day: '수', time: '15:20~16:40', duration: 80, capacity: 22, category: 'science' },
-    { id: 15, name: '방송댄스', class: 'A', grade: '1~2', day: '수', time: '13:50~15:00', duration: 70, capacity: 22, category: 'sports' },
-    { id: 16, name: '방송댄스', class: 'B', grade: '1~6', day: '수', time: '15:10~16:20', duration: 70, capacity: 22, category: 'sports' },
-    { id: 17, name: '항공우주과학', class: 'A', grade: '1~2', day: '수', time: '13:50~15:10', duration: 80, capacity: 22, category: 'science' },
-    { id: 18, name: '아동요리', class: 'A', grade: '1~2', day: '수', time: '13:50~15:10', duration: 80, capacity: 22, category: 'life' },
-    { id: 19, name: '음악줄넘기', class: 'A', grade: '1~6', day: '수', time: '13:50~15:00', duration: 70, capacity: 22, category: 'sports' },
-    { id: 20, name: '음악줄넘기', class: 'B', grade: '1~6', day: '수', time: '15:10~16:20', duration: 70, capacity: 22, category: 'sports' },
-
-    // ===== 목요일 (Thursday) =====
-    { id: 21, name: '생명과학', class: 'A', grade: '1~2', day: '목', time: '13:50~15:10', duration: 80, capacity: 22, category: 'science' },
-    { id: 22, name: '생명과학', class: 'B', grade: '1~6', day: '목', time: '15:20~16:40', duration: 80, capacity: 22, category: 'science' },
-    { id: 23, name: '독서논술', class: 'C', grade: '1~2', day: '목', time: '13:50~15:10', duration: 80, capacity: 22, category: 'language' },
-    { id: 24, name: '바이올린', class: 'A', grade: '1-2', day: '목', time: '13:50~15:10', duration: 80, capacity: 15, category: 'music' },
-    { id: 25, name: '바이올린', class: 'B', grade: '1~6', day: '목', time: '15:20~16:40', duration: 80, capacity: 15, category: 'music' },
-    { id: 26, name: '미술(회화)', class: 'C', grade: '1~2', day: '목', time: '13:50~15:10', duration: 80, capacity: 22, category: 'art' },
-    { id: 27, name: '미술(회화)', class: 'D', grade: '1~6', day: '목', time: '15:20~16:40', duration: 80, capacity: 22, category: 'art' },
-    { id: 28, name: '컴퓨터기초', class: 'B', grade: '1~2', day: '목', time: '13:50~15:10', duration: 80, capacity: 20, category: 'computer' },
-
-    // ===== 금요일 (Friday) =====
-    { id: 29, name: '바둑', class: 'C', grade: '1~2', day: '금', time: '13:00~14:20', duration: 80, capacity: 22, category: 'thinking' },
-    { id: 30, name: '바둑', class: 'D', grade: '1~6', day: '금', time: '14:40~16:00', duration: 80, capacity: 22, category: 'thinking' },
-    { id: 31, name: '퍼니스포츠', class: 'A', grade: '1~2', day: '금', time: '13:00~14:10', duration: 70, capacity: 22, category: 'sports' },
-    { id: 32, name: '로봇', class: 'C', grade: '1~2', day: '금', time: '13:00~14:20', duration: 80, capacity: 22, category: 'science' },
-    { id: 33, name: '로봇', class: 'D', grade: '1~6', day: '금', time: '14:40~16:00', duration: 80, capacity: 22, category: 'science' },
-    { id: 34, name: '생명과학', class: 'C', grade: '1~2', day: '금', time: '13:00~14:20', duration: 80, capacity: 22, category: 'science' },
-    { id: 35, name: '생명과학', class: 'D', grade: '1~6', day: '금', time: '14:40~16:00', duration: 80, capacity: 22, category: 'science' },
-    { id: 36, name: '주산암산', class: 'C', grade: '1~2', day: '금', time: '13:00~14:20', duration: 80, capacity: 22, category: 'thinking' },
-    { id: 37, name: '주산암산', class: 'D', grade: '1~6', day: '금', time: '14:40~16:00', duration: 80, capacity: 22, category: 'thinking' },
-    { id: 38, name: '영어그림책', class: 'A', grade: '1~2', day: '금', time: '13:00~14:20', duration: 80, capacity: 15, category: 'language' },
-    { id: 39, name: '영어그림책', class: 'B', grade: '1~2', day: '금', time: '14:30~15:50', duration: 80, capacity: 15, category: 'language' },
-    { id: 40, name: '컴퓨터기초', class: 'A', grade: '1~2', day: '금', time: '13:00~14:20', duration: 80, capacity: 20, category: 'computer' },
-  ];
-
-  const [selectedPrograms, setSelectedPrograms] = useState<Program[]>([]);
+  const [selectedPrograms, setSelectedPrograms] = useState<LegacyProgram[]>([]);
   const [filterCategory, setFilterCategory] = useState('all');
-
-  const days = ['월', '화', '수', '목', '금'];
-  const dayColors = [
-    'from-rose-500 to-red-600',
-    'from-amber-500 to-orange-600',
-    'from-emerald-500 to-green-600',
-    'from-cyan-500 to-teal-600',
-    'from-violet-500 to-purple-600',
-  ];
-
-  const categories: Record<string, CategoryStyle> = {
-    all: { label: '전체', icon: '◼', className: '', bgColor: 'bg-white/10', textColor: 'text-white' },
-    art: { label: '예술', icon: '🎨', className: 'category-art', bgColor: 'bg-pink-500/20', textColor: 'text-pink-300' },
-    thinking: { label: '사고력', icon: '🧠', className: 'category-thinking', bgColor: 'bg-purple-500/20', textColor: 'text-purple-300' },
-    sports: { label: '체육', icon: '⚽', className: 'category-sports', bgColor: 'bg-green-500/20', textColor: 'text-green-300' },
-    language: { label: '언어', icon: '📚', className: 'category-language', bgColor: 'bg-blue-500/20', textColor: 'text-blue-300' },
-    science: { label: '과학', icon: '🔬', className: 'category-science', bgColor: 'bg-cyan-500/20', textColor: 'text-cyan-300' },
-    music: { label: '음악', icon: '🎵', className: 'category-music', bgColor: 'bg-amber-500/20', textColor: 'text-amber-300' },
-    life: { label: '생활', icon: '🍳', className: 'category-life', bgColor: 'bg-orange-500/20', textColor: 'text-orange-300' },
-    computer: { label: '컴퓨터', icon: '💻', className: 'category-computer', bgColor: 'bg-indigo-500/20', textColor: 'text-indigo-300' },
-  };
 
   const getCategoryStyle = (category: string) => categories[category] || categories.all;
 
@@ -141,7 +65,7 @@ export default function WeeklyTimetable() {
     return !(t1.end <= t2.start || t2.end <= t1.start);
   };
 
-  const toggleProgram = (program: Program) => {
+  const toggleProgram = (program: LegacyProgram) => {
     const isSelected = selectedPrograms.find(p => p.id === program.id);
     if (isSelected) {
       setSelectedPrograms(selectedPrograms.filter(p => p.id !== program.id));
@@ -157,24 +81,7 @@ export default function WeeklyTimetable() {
     }
   };
 
-  const timeSlots = [
-    { start: '08:50', end: '09:00', label: '아침독서', type: 'morning' },
-    { start: '09:00', end: '09:40', label: '1교시', type: 'class' },
-    { start: '09:40', end: '09:50', label: '쉬는시간', type: 'break' },
-    { start: '09:50', end: '10:30', label: '2교시', type: 'class' },
-    { start: '10:30', end: '10:40', label: '쉬는시간', type: 'break' },
-    { start: '10:40', end: '11:20', label: '3교시', type: 'class' },
-    { start: '11:20', end: '11:30', label: '쉬는시간', type: 'break' },
-    { start: '11:30', end: '12:10', label: '4교시', type: 'class' },
-    { start: '12:10', end: '13:00', label: '점심', type: 'lunch' },
-    { start: '13:00', end: '14:00', label: '', type: 'afternoon' },
-    { start: '14:00', end: '15:00', label: '', type: 'afternoon' },
-    { start: '15:00', end: '16:00', label: '', type: 'afternoon' },
-    { start: '16:00', end: '17:00', label: '', type: 'afternoon' },
-    { start: '17:00', end: '18:00', label: '', type: 'afternoon' },
-  ];
-
-  const getSlotContent = (slot: typeof timeSlots[0], dayIdx: number): SlotContent => {
+  const getSlotContent = (slot: TimeSlot, dayIdx: number): SlotContent => {
     const dayName = days[dayIdx];
 
     if (slot.type === 'morning') return { content: '📖', style: 'bg-amber-900/30 text-amber-400' };
@@ -237,6 +144,13 @@ export default function WeeklyTimetable() {
         <header className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6 py-4">
           <TetritimeLogo />
           <div className="flex items-center gap-3">
+            <Link
+              to="/setup"
+              className="px-4 py-2 bg-gradient-to-r from-brand-red to-pink-600 text-white text-sm font-medium rounded-xl shadow-lg shadow-brand-red/30 hover:shadow-brand-red/50 transition-all flex items-center gap-2"
+            >
+              <span>⚙️</span>
+              <span>시간표 설정</span>
+            </Link>
             <div className="px-4 py-2 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10">
               <span className="text-white/60 text-sm">1학년</span>
               <span className="ml-2 text-white font-display font-semibold">주간 시간표</span>
@@ -306,7 +220,7 @@ export default function WeeklyTimetable() {
                 <p className="text-white/40 text-sm">오른쪽에서 프로그램을 선택하세요</p>
               ) : (
                 <div className="flex flex-wrap gap-2">
-                  {selectedPrograms.sort((a, b) => days.indexOf(a.day) - days.indexOf(b.day)).map(p => {
+                  {selectedPrograms.sort((a, b) => days.indexOf(a.day as typeof DAYS[number]) - days.indexOf(b.day as typeof DAYS[number])).map(p => {
                     const style = getCategoryStyle(p.category);
                     return (
                       <button
