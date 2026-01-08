@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router';
 
 interface Program {
   id: number;
@@ -237,6 +238,13 @@ export default function WeeklyTimetable() {
         <header className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6 py-4">
           <TetritimeLogo />
           <div className="flex items-center gap-3">
+            <Link
+              to="/setup"
+              className="px-4 py-2 bg-gradient-to-r from-brand-red to-pink-600 text-white text-sm font-medium rounded-xl shadow-lg shadow-brand-red/30 hover:shadow-brand-red/50 transition-all flex items-center gap-2"
+            >
+              <span>⚙️</span>
+              <span>시간표 설정</span>
+            </Link>
             <div className="px-4 py-2 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10">
               <span className="text-white/60 text-sm">1학년</span>
               <span className="ml-2 text-white font-display font-semibold">주간 시간표</span>
