@@ -11,4 +11,8 @@ export default defineConfig({
     reactRouter(),
     tsconfigPaths(),
   ],
+  server: {
+    host: true,
+    allowedHosts: true,
+  },
 });
