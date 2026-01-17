@@ -1,11 +1,16 @@
 # Tetritime - Docker Compose for home.codepoet.site
 # 내부 도메인 테스트용 (개발 서버)
 #
-# 사용법:
-# 1. Portainer Stack으로 배포 (권장)
-# 2. 또는 직접 실행: docker compose up -d
+# 사용법 (Linux 서버에서):
+#   cd /path/to/tetritime
+#   docker compose up -d --build
 #
 # 접속: http://tetritime.home.codepoet.site
+#
+# 참고:
+# - Portainer GitOps: Linux buildx 문제로 실패
+# - GHCR 푸시: GitHub PAT에 write:packages 권한 필요
+# - 현재는 Linux에서 git pull 후 docker compose up -d --build 로 배포
 
 services:
   tetritime:

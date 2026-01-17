@@ -61,6 +61,33 @@ Programs are currently static data in `WeeklyTimetable.tsx` with:
 - Time slots with 70-80 minute durations
 - Conflict detection between selected programs
 
+## Development & Deployment Flow
+
+```
+1. 로컬 개발     →  2. 내부 테스트      →  3. 프로덕션 배포
+   pnpm dev           docker compose        wrangler deploy
+   localhost:5173     *.home.codepoet.site  tetritime.codepoet.site
+```
+
+### 1. 로컬 개발
+```bash
+pnpm dev -- --host    # http://localhost:5173 (네트워크 접근 허용)
+```
+
+### 2. 내부 테스트 (Docker)
+```bash
+# Linux 서버에서
+git pull
+docker compose up -d --build
+# 접속: http://tetritime.home.codepoet.site
+```
+
+### 3. 프로덕션 배포
+```bash
+cd apps/web
+npm run cf-deploy     # Cloudflare Workers 배포
+```
+
 ## Development Notes
 
 - UI language is Korean
