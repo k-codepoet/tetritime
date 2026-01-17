@@ -20,8 +20,6 @@ services:
     image: tetritime:dev
     container_name: tetritime
     restart: unless-stopped
-    ports:
-      - "5173:5173"
     environment:
       - NODE_ENV=development
     labels:
