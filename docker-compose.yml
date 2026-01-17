@@ -1,0 +1,44 @@
+# Tetritime - Docker Compose for home.codepoet.site
+# 내부 도메인 테스트용 (개발 서버)
+#
+# 사용법:
+# 1. Portainer Stack으로 배포 (권장)
+# 2. 또는 직접 실행: docker compose up -d
+#
+# 접속: http://tetritime.home.codepoet.site
+
+services:
+  tetritime:
+    image: node:22-alpine
+    container_name: tetritime
+    restart: unless-stopped
+    working_dir: /app
+    command:
+      - sh
+      - -c
+      - |
+        corepack enable
+        corepack prepare pnpm@9.15.4 --activate
+        pnpm install --frozen-lockfile
+        pnpm dev --host 0.0.0.0 --port 5173
+    ports:
+      - "5173:5173"
+    volumes:
+      - .:/app
+      - pnpm_store:/root/.local/share/pnpm/store
+    environment:
+      - NODE_ENV=development
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.tetritime.rule=Host(`tetritime.home.codepoet.site`)"
+      - "traefik.http.routers.tetritime.entrypoints=web"
+      - "traefik.http.services.tetritime.loadbalancer.server.port=5173"
+    networks:
+      - traefik
+
+networks:
+  traefik:
+    external: true
+
+volumes:
+  pnpm_store:
