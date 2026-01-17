@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import {
   isRouteErrorResponse,
   Links,
@@ -9,6 +10,12 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
+
+const VibeKanbanWebCompanion = lazy(() =>
+  import("vibe-kanban-web-companion").then((m) => ({
+    default: m.VibeKanbanWebCompanion,
+  }))
+);
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -41,6 +48,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
         {children}
         <ScrollRestoration />
         <Scripts />
+        {import.meta.env.DEV && (
+          <Suspense fallback={null}>
+            <VibeKanbanWebCompanion />
+          </Suspense>
+        )}
       </body>
     </html>
   );

@@ -15,7 +15,8 @@
     "isbot": "^5.1.31",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
-    "react-router": "7.10.1"
+    "react-router": "7.10.1",
+    "vibe-kanban-web-companion": "^0.0.5"
   },
   "devDependencies": {
     "@cloudflare/vite-plugin": "^1.13.7",
