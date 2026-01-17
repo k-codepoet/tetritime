@@ -5,7 +5,7 @@
 #   cd /path/to/tetritime
 #   docker compose up -d --build
 #
-# 접속: http://tetritime.home.codepoet.site
+# 접속: https://tetritime.home.codepoet.site:8443 (NAS Traefik HTTPS → 내부 HTTP 체이닝)
 #
 # 참고:
 # - Portainer GitOps: Linux buildx 문제로 실패
