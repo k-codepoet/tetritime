@@ -1,0 +1,29 @@
+# Tetritime - Portainer GitOps Stack
+# GitHub Actions에서 빌드된 이미지를 사용
+#
+# 배포: Portainer → Stacks → Add stack → Git repository
+#   - Repository: https://github.com/k-codepoet/tetritime.git
+#   - Branch: main (또는 원하는 브랜치)
+#   - Compose path: docker-compose.gitops.yml
+#   - Endpoint: codepoet-linux-1
+#
+# 접속: https://tetritime.home.codepoet.site:8443
+
+services:
+  tetritime:
+    image: ghcr.io/k-codepoet/tetritime:latest
+    container_name: tetritime
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=development
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.tetritime.rule=Host(`tetritime.home.codepoet.site`)"
+      - "traefik.http.routers.tetritime.entrypoints=web"
+      - "traefik.http.services.tetritime.loadbalancer.server.port=5173"
+    networks:
+      - traefik
+
+networks:
+  traefik:
+    external: true
